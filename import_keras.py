@@ -17,3 +17,5 @@ Layer = keras.layers.Layer
 Model = keras.Model
 
 K = keras.backend
+preprocess_input = keras.applications.imagenet_utils.preprocess_input
+image = keras.preprocessing.image
