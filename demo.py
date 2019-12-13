@@ -14,8 +14,10 @@ plt.rcParams['image.interpolation'] = 'nearest'
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 
 
-classes_name = ['x','p','t']
-NUM_CLASSES = 3+1
+# classes_name = ['x','p','t']
+# NUM_CLASSES = 3+1
+classes_name = pickle.load(open('convert/classes.pkl', 'rb'))
+NUM_CLASSES = pickle.load(open('convert/classes_num.pkl', 'rb')) + 1
 
 # classes_name = "你我他是"
 # NUM_CLASSES = 4+1

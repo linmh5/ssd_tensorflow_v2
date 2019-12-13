@@ -30,7 +30,9 @@ np.set_printoptions(suppress=True)
 
 # some constants
 # NUM_CLASSES = 4 + 1  # 1 means mask
-NUM_CLASSES = 3 + 1  # 1 means mask
+# NUM_CLASSES = 3 + 1  # 1 means mask
+NUM_CLASSES = pickle.load(open('convert/classes_num.pkl', 'rb')) + 1
+
 input_shape = (300, 300, 3)
 
 # %%
@@ -40,7 +42,7 @@ bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
 # %%
 
-gt = pickle.load(open('train.pkl', 'rb'), encoding='iso-8859-1')  # for python3.x
+gt = pickle.load(open('convert/train.pkl', 'rb'), encoding='iso-8859-1')  # for python3.x
 # gt = pickle.load(open('data_convert/train.pkl', 'rb'))
 keys = sorted(gt.keys())
 num_train = int(round(0.8 * len(keys)))
@@ -225,7 +227,7 @@ class Generator(object):
 # %%
 
 
-path_prefix = 'data/train/'  # path to your data
+path_prefix = 'data/CTW_img/'  # path to your data
 gen = Generator(gt, bbox_util, 2, path_prefix,
                 train_keys, val_keys,
                 (input_shape[0], input_shape[1]), do_crop=True)
@@ -235,7 +237,7 @@ gen = Generator(gt, bbox_util, 2, path_prefix,
 
 model = ssd(input_shape, NUM_CLASSES)
 # model.load_weights('weights_SSD300.hdf5', by_name=True)
-model.load_weights('./saved/weights.05-3.22.hdf5', by_name=True)
+# model.load_weights('./saved/weights.05-3.22.hdf5', by_name=True)
 
 # %%
 
