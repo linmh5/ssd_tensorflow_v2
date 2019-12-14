@@ -14,33 +14,25 @@ plt.rcParams['image.interpolation'] = 'nearest'
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 
 
-# classes_name = ['x','p','t']
-# NUM_CLASSES = 3+1
 classes_name = pickle.load(open('convert/classes.pkl', 'rb'))
 NUM_CLASSES = pickle.load(open('convert/classes_num.pkl', 'rb')) + 1
 
-# classes_name = "你我他是"
-# NUM_CLASSES = 4+1
 input_shape = (300, 300, 3)
 
 priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
 model = ssd(input_shape, NUM_CLASSES)
-model.load_weights('./saved/weights.05-2.25.hdf5', by_name=True)
-# model.load_weights('weights_SSD300.hdf5', by_name=True)
+model.load_weights('saved/weights.01-7.85.hdf5', by_name=True)
 
 
-path_prefix = 'data/train/'  # path to your data
-# path_prefix = 'data/img/'  # path to your data
-gt = pickle.load(open('train.pkl', 'rb'), encoding='iso-8859-1')  # for python3.x
-# gt = pickle.load(open('data_convert/train.pkl', 'rb'))
+path_prefix = 'data/CTW_img/'  # path to your data
+gt = pickle.load(open('convert/train.pkl', 'rb'), encoding='iso-8859-1')  # for python3.x
 keys = sorted(gt.keys())
 
 inputs = []
 images = []
-img_path = path_prefix + sorted(keys)[0]
-# img_path = path_prefix + sorted(train_keys)[0]
+img_path = path_prefix + sorted(keys)[2]
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path).astype('float32'))
@@ -64,7 +56,7 @@ for i, img in enumerate(images):
     det_ymax = results[i][:, 5]
 
     # Get detections with confidence higher than 0.6.
-    top_indices = [i for i, conf in enumerate(det_conf) if conf >= 0.5]  # TODO
+    top_indices = [i for i, conf in enumerate(det_conf) if conf >= 0.2]  # TODO
 
     top_conf = det_conf[top_indices]
     top_label_indices = det_label[top_indices].tolist()
